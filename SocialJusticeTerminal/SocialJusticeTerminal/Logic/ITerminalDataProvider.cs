@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace SocialJusticTerminal.Logic
+namespace SocialJusticeTerminal.Logic
 {
     interface ITerminalDataProvider
     {

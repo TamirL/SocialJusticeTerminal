@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
-using SocialJusticTerminal.Annotations;
-using SocialJusticTerminal.Logic;
+using SocialJusticeTerminal.Annotations;
+using SocialJusticeTerminal.Logic;
 
-namespace SocialJusticTerminal.ViewModels
+namespace SocialJusticeTerminal.ViewModels
 {
     class NewPurchaseViewModel : BaseViewModel
     {
@@ -31,7 +31,6 @@ namespace SocialJusticTerminal.ViewModels
         }
 
         #endregion
-
 
         #region Properties
 
@@ -59,18 +58,19 @@ namespace SocialJusticTerminal.ViewModels
 
         #region Commands
 
-        public ICommand AddPruchaseCommand { get { return new RelayCommand(AddPruchase, ShouldAddPurchase);} }
+        public ICommand AddPruchaseCommand { get { return new RelayCommand<Window>(AddPruchase, ShouldAddPurchase);} }
 
         #endregion
 
         #region Methods
 
-        private void AddPruchase()
+        private void AddPruchase(Window containingWindow)
         {
             if (Price.HasValue)
             {
                 _dataProvider.AddPurchase(_userId, _storeId, Price.Value);
                 MessageBox.Show("ההתקשרות התבצעה בהצלחה", "מועדון צדק חברתי", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.RtlReading);
+                if (containingWindow != null) containingWindow.Close();
             }
             else
             {
@@ -84,6 +84,5 @@ namespace SocialJusticTerminal.ViewModels
         }
 
         #endregion
-
     }
 }

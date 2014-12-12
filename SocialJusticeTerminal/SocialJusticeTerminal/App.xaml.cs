@@ -5,12 +5,12 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
-using SocialJusticTerminal.Logic;
-using SocialJusticTerminal.ViewModels;
-using SocialJusticTerminal.Views;
+using SocialJusticeTerminal.Logic;
+using SocialJusticeTerminal.ViewModels;
+using SocialJusticeTerminal.Views;
 using Application = System.Windows.Application;
 
-namespace SocialJusticTerminal
+namespace SocialJusticeTerminal
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -23,7 +23,7 @@ namespace SocialJusticTerminal
         {
             _notifyIcon = new NotifyIcon
             {
-                Icon = new System.Drawing.Icon(@"D:\Work\SocialJustic\SocialJusticTerminal\SocialJusticTerminal\SocialJusticTerminal\Images\ic_account_child_24px.ico"),
+                Icon = new System.Drawing.Icon(@"D:\Work\SocialJustice\SocialJusticeTerminal\SocialJusticeTerminal\SocialJusticeTerminal\Images\ic_account_child_24px.ico"),
                 Visible = true,
                 Text = "מועדון צדק חברתי"
             };

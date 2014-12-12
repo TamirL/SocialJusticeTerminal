@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Forms;
 
-namespace SocialJusticTerminal.Views
+namespace SocialJusticeTerminal.Views
 {
     /// <summary>
     /// Interaction logic for NewPurchaseView.xaml

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
-using SocialJusticTerminal.Annotations;
+using SocialJusticeTerminal.Annotations;
 
-namespace SocialJusticTerminal.ViewModels
+namespace SocialJusticeTerminal.ViewModels
 {
     class BaseViewModel : INotifyPropertyChanged
     {

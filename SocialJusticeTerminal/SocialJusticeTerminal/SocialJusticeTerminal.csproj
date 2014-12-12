@@ -7,8 +7,8 @@
     <ProjectGuid>{047AF677-7AD7-4DC5-A7A9-8E4DEAA6EA61}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SocialJusticTerminal</RootNamespace>
-    <AssemblyName>SocialJusticTerminal</AssemblyName>
+    <RootNamespace>SocialJusticeTerminal</RootNamespace>
+    <AssemblyName>SocialJusticeTerminal</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
