@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
+using SocialJusticTerminal.Logic;
+using SocialJusticTerminal.ViewModels;
 using SocialJusticTerminal.Views;
 using Application = System.Windows.Application;
 
@@ -26,7 +28,7 @@ namespace SocialJusticTerminal
                 Text = "מועדון צדק חברתי"
             };
 
-            _notifyIcon.MouseClick += (a, b) => new NewPurchaseView().Show();
+            _notifyIcon.MouseClick += (a, b) => CreateNewPurchaseView();
 
             var dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += dispatcherTimer_Tick;
@@ -38,8 +40,13 @@ namespace SocialJusticTerminal
         {
             if (DateTime.Now.Second == 13)
             {
-                new NewPurchaseView().Show();
+                CreateNewPurchaseView();
             }
+        }
+
+        private void CreateNewPurchaseView()
+        {
+            new NewPurchaseView() { DataContext = new NewPurchaseViewModel(new DummyTerminalDataProvider(), Guid.NewGuid().ToString("N"), Guid.NewGuid().ToString("N")) }.Show();            
         }
     }
 }

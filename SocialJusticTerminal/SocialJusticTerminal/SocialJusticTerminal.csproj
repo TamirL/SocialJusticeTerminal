@@ -55,8 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Logic\ITerminalDataProvider.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="ViewModels\AddPurchaseViewModel.cs" />
+    <Compile Include="ViewModels\NewPurchaseViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="Views\NewPurchaseView.xaml.cs">
