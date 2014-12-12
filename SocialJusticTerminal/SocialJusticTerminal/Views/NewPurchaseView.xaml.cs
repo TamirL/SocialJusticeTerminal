@@ -5,11 +5,11 @@ using System.Windows.Forms;
 namespace SocialJusticTerminal.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for NewPurchaseView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class NewPurchaseView : Window
     {
-        public MainWindow()
+        public NewPurchaseView()
         {
             InitializeComponent();
         }

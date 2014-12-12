@@ -25,9 +25,10 @@ namespace SocialJusticTerminal
                 Visible = true,
                 Text = "מועדון צדק חברתי"
             };
-//            _notifyIcon.MouseClick += (a, b) => 
 
-            System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            _notifyIcon.MouseClick += (a, b) => new NewPurchaseView().Show();
+
+            var dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += dispatcherTimer_Tick;
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
@@ -37,8 +38,7 @@ namespace SocialJusticTerminal
         {
             if (DateTime.Now.Second == 13)
             {
-                new MainWindow().Show();
-                this.MainWindow = null;
+                new NewPurchaseView().Show();
             }
         }
     }
