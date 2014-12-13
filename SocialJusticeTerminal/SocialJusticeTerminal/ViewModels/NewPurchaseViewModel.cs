@@ -37,23 +37,21 @@ namespace SocialJusticeTerminal.ViewModels
 
         public string PriceString
         {
-            get { return Price == null ? string.Empty : Price.Value.ToString(); }
+            get { return _price == null ? string.Empty : _price.Value.ToString(); }
             set
             {
                 float actualValue;
                 if (float.TryParse(value, out actualValue) && actualValue > 0)
                 {
-                    Price = actualValue;
+                    _price = actualValue;
                 }
                 else
                 {
-                    Price = null;
+                    _price = null;
                 }
                 OnPropertyChanged("PriceString");
             }
         }
-
-        public float? Price {get; set; }
 
         #endregion
 
@@ -80,11 +78,19 @@ namespace SocialJusticeTerminal.ViewModels
 
         private void AddPruchase()
         {
-            if (Price.HasValue)
+            if (_price.HasValue)
             {
-                _dataProvider.AddPurchase(_userId, _storeId, Price.Value);
-                MessageBox.Show("פעולת הלקוח נשמרה בהצלחה", "מועדון צדק חברתי", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.RtlReading);
-                OnWindowCloseRequested();
+                try
+                {
+                    _dataProvider.AddPurchase(_userId, _storeId, _price.Value);
+                    MessageBox.Show("פעולת הלקוח נשמרה בהצלחה", "מועדון צדק חברתי", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.RtlReading);
+                    OnWindowCloseRequested();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("נכשל לשמור את פעולת הלקוח, אנא נסה שוב. במידה והפעולה לא מצליחה באופן עקבי נא לפנות ל\"מועדון צדק חברתי\"", "מועדון צדק חברתי", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.RtlReading);
+                    _dataProvider.WriteToLog(e);
+                }
             }
             else
             {
@@ -94,7 +100,7 @@ namespace SocialJusticeTerminal.ViewModels
 
         private bool ShouldAddPurchase()
         {
-            return Price != null && Price > 0;
+            return _price != null && _price > 0;
         }
 
         #endregion

@@ -9,5 +9,10 @@ namespace SocialJusticeTerminal.Logic
         {
             File.AppendAllText("D:\\Purchases.csv", string.Format("{0},{1},{2},{3}{4}", userId, storeId, price, price/10, Environment.NewLine));
         }
+
+        public void WriteToLog(Exception exception)
+        {
+            
+        }
     }
 }
