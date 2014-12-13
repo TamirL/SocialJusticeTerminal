@@ -60,6 +60,7 @@
     <Compile Include="Logic\DummyTerminalDataProvider.cs" />
     <Compile Include="Logic\ITerminalDataProvider.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModels\BaseViewViewModel.cs" />
     <Compile Include="ViewModels\NewPurchaseViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="Views\NewPurchaseView.xaml.cs">

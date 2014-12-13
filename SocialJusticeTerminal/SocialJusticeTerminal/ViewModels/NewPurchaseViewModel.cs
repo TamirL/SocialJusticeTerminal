@@ -10,7 +10,7 @@ using SocialJusticeTerminal.Logic;
 
 namespace SocialJusticeTerminal.ViewModels
 {
-    class NewPurchaseViewModel : BaseViewModel
+    class NewPurchaseViewModel : BaseViewViewModel
     {
         #region Fields
 
@@ -54,19 +54,6 @@ namespace SocialJusticeTerminal.ViewModels
         }
 
         #endregion
-
-        #region Events
-
-        public event EventHandler WindowCloseRequested;
-
-        protected virtual void OnWindowCloseRequested()
-        {
-            EventHandler handler = WindowCloseRequested;
-            if (handler != null) handler(this, EventArgs.Empty);
-        }
-
-        #endregion
-
 
         #region Commands
 
