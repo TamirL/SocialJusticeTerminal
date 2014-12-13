@@ -46,7 +46,11 @@ namespace SocialJusticeTerminal
 
         private void CreateNewPurchaseView()
         {
-            new NewPurchaseView() { DataContext = new NewPurchaseViewModel(new DummyTerminalDataProvider(), Guid.NewGuid().ToString("N"), Guid.NewGuid().ToString("N")) }.Show();            
+            var viewModel = new NewPurchaseViewModel(new DummyTerminalDataProvider(), Guid.NewGuid().ToString("N"), Guid.NewGuid().ToString("N"));
+            var view = new NewPurchaseView() {DataContext = viewModel};
+            viewModel.WindowCloseRequested += (a,b) => view.Close();
+            view.Show();
+            view.FocusOnTextbox();
         }
     }
 }

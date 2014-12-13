@@ -14,5 +14,9 @@ namespace SocialJusticeTerminal.Views
             InitializeComponent();
         }
 
+        public void FocusOnTextbox()
+        {
+            this.txtPrice.Focus();
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using SocialJusticeTerminal.Annotations;
+using SocialJusticeTerminal.Helpers;
 using SocialJusticeTerminal.Logic;
 
 namespace SocialJusticeTerminal.ViewModels
@@ -56,21 +57,34 @@ namespace SocialJusticeTerminal.ViewModels
 
         #endregion
 
+        #region Events
+
+        public event EventHandler WindowCloseRequested;
+
+        protected virtual void OnWindowCloseRequested()
+        {
+            EventHandler handler = WindowCloseRequested;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
+        #endregion
+
+
         #region Commands
 
-        public ICommand AddPruchaseCommand { get { return new RelayCommand<Window>(AddPruchase, ShouldAddPurchase);} }
+        public ICommand AddPruchaseCommand { get { return new RelayCommand(AddPruchase, ShouldAddPurchase);} }
 
         #endregion
 
         #region Methods
 
-        private void AddPruchase(Window containingWindow)
+        private void AddPruchase()
         {
             if (Price.HasValue)
             {
                 _dataProvider.AddPurchase(_userId, _storeId, Price.Value);
-                MessageBox.Show("ההתקשרות התבצעה בהצלחה", "מועדון צדק חברתי", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.RtlReading);
-                if (containingWindow != null) containingWindow.Close();
+                MessageBox.Show("פעולת הלקוח נשמרה בהצלחה", "מועדון צדק חברתי", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.RtlReading);
+                OnWindowCloseRequested();
             }
             else
             {

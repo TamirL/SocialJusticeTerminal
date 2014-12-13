@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace SocialJusticeTerminal.ViewModels
+namespace SocialJusticeTerminal.Helpers
 {
     public class RelayCommand : ICommand
     {
