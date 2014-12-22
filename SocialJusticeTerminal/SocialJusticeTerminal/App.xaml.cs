@@ -5,10 +5,13 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
+using SocialJusticeTerminal.Helpers;
 using SocialJusticeTerminal.Logic;
 using SocialJusticeTerminal.ViewModels;
 using SocialJusticeTerminal.Views;
 using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
+using MessageBoxOptions = System.Windows.MessageBoxOptions;
 
 namespace SocialJusticeTerminal
 {
@@ -28,29 +31,41 @@ namespace SocialJusticeTerminal
                 Text = "מועדון צדק חברתי"
             };
 
-            _notifyIcon.MouseClick += (a, b) => CreateNewPurchaseView();
-
-            var dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-            dispatcherTimer.Tick += dispatcherTimer_Tick;
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-            dispatcherTimer.Start();
+            _notifyIcon.MouseClick += (a, b) => DoLogic();
         }
 
-        void dispatcherTimer_Tick(object sender, EventArgs e)
+        private void DoLogic()
         {
-            if (DateTime.Now.Second == 13)
+            ITerminalDataProvider dataProvider = new DummyTerminalDataProvider();
+            // TODO: Get the real data
+            var customerId = Guid.NewGuid();
+            var storeId = Guid.NewGuid();
+            try
             {
-                CreateNewPurchaseView();
+                var couponsOfCustomer = dataProvider.GetCouponsOfCustomer(customerId, storeId);
+                if (couponsOfCustomer.Any())
+                {
+                    Navigator.Instance.CreateUseCouponeView(dataProvider, customerId, storeId, couponsOfCustomer);
+                }
+                else
+                {
+                    Navigator.Instance.CreateNewPurchaseView(dataProvider, customerId, storeId);
+                }
+            }
+            catch (Exception e)
+            {
+                dataProvider.WriteToLog(e);
+                var selection = MessageBox.Show(
+                    "נכשל להשיג את רשימת הקופונים של המשתמש, האם ברצונך לעשות פעולה רגילה במקום?",
+                    "מועדון צדק חברתי", MessageBoxButton.YesNo, MessageBoxImage.Error, MessageBoxResult.Yes,
+                    MessageBoxOptions.RtlReading);
+                if (selection == MessageBoxResult.Yes)
+                {
+                    Navigator.Instance.CreateNewPurchaseView(dataProvider, customerId, storeId);                    
+                }
             }
         }
 
-        private void CreateNewPurchaseView()
-        {
-            var viewModel = new NewPurchaseViewModel(new DummyTerminalDataProvider(), Guid.NewGuid().ToString("N"), Guid.NewGuid().ToString("N"));
-            var view = new NewPurchaseView() {DataContext = viewModel};
-            viewModel.WindowCloseRequested += (a,b) => view.Close();
-            view.Show();
-            view.FocusOnTextbox();
-        }
+
     }
 }

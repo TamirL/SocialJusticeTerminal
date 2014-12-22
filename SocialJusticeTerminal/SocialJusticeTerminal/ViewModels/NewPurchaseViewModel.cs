@@ -16,18 +16,21 @@ namespace SocialJusticeTerminal.ViewModels
 
         private float? _price;
         private ITerminalDataProvider _dataProvider;
-        private string _userId;
-        private string _storeId;
+        private Guid _customerId;
+        private Guid _storeId;
 
-        public NewPurchaseViewModel([NotNull] ITerminalDataProvider dataProvider, [NotNull] string userId,
-            [NotNull] string storeId)
+        #endregion
+
+        #region Ctor
+
+        public NewPurchaseViewModel([NotNull] ITerminalDataProvider dataProvider, Guid customerId, Guid storeId)
         {
             if (dataProvider == null) throw new ArgumentNullException("dataProvider");
-            if (userId == null) throw new ArgumentNullException("userId");
-            if (storeId == null) throw new ArgumentNullException("storeId");
+            if (customerId == null || customerId == Guid.Empty) throw new ArgumentNullException("customerId");
+            if (storeId == null || storeId == Guid.Empty) throw new ArgumentNullException("storeId");
 
             _dataProvider = dataProvider;
-            _userId = userId;
+            _customerId = customerId;
             _storeId = storeId;
         }
 
@@ -69,7 +72,7 @@ namespace SocialJusticeTerminal.ViewModels
             {
                 try
                 {
-                    _dataProvider.AddPurchase(_userId, _storeId, _price.Value);
+                    _dataProvider.AddPurchase(_customerId, _storeId, _price.Value);
                     MessageBox.Show("פעולת הלקוח נשמרה בהצלחה", "מועדון צדק חברתי", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.RtlReading);
                     OnWindowCloseRequested();
                 }
