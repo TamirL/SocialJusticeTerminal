@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SocialJusticeTerminal.ViewModels
 {
-    class CouponViewModel : BaseViewModel
+    class CustomerCouponViewModel : BaseViewModel
     {
         public Guid Id { get; set; }
         public Guid CustomerId { get; set; }

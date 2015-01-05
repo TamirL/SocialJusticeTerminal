@@ -10,7 +10,8 @@ namespace SocialJusticeTerminal.Logic
     {
         void AddPurchase(Guid customerId, Guid storeId, float price);
         void WriteToLog(Exception exception);
-        void UseCoupon(CouponViewModel coupon);
-        IEnumerable<CouponViewModel> GetCouponsOfCustomer(Guid customerId, Guid storeId);
+        void UseCoupon(CustomerCouponViewModel coupon);
+        IEnumerable<CustomerCouponViewModel> GetCouponsOfCustomer(Guid customerId, Guid storeId);
+        Guid GetSelectedCustomer(string customerTz);
     }
 }

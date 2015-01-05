@@ -72,19 +72,23 @@ namespace SocialJusticeTerminal.ViewModels
             {
                 try
                 {
-                    _dataProvider.AddPurchase(_customerId, _storeId, _price.Value);
-                    MessageBox.Show("פעולת הלקוח נשמרה בהצלחה", "מועדון צדק חברתי", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.RtlReading);
-                    OnWindowCloseRequested();
+                    if (TerminalMessageBox.ShowQuestion(string.Format("האם אתה בטוח שברצונך לזכות את הלקוח בקניה של {0} שקלים?", _price.Value)))
+                    {
+                        _dataProvider.AddPurchase(_customerId, _storeId, _price.Value);
+                        TerminalMessageBox.ShowInfo("פעולת הלקוח נשמרה בהצלחה");
+                        OnWindowCloseRequested();
+                    }
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show("נכשל לשמור את פעולת הלקוח, אנא נסה שוב. במידה והפעולה לא מצליחה באופן עקבי נא לפנות ל\"מועדון צדק חברתי\"", "מועדון צדק חברתי", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK, MessageBoxOptions.RtlReading);
+                    const string errorText = "נכשל לשמור את פעולת הלקוח, אנא נסה שוב. במידה והפעולה לא מצליחה באופן עקבי נא לפנות ל\"מועדון צדק חברתי\"";
+                    TerminalMessageBox.ShowError(errorText);
                     _dataProvider.WriteToLog(e);
                 }
             }
             else
             {
-                MessageBox.Show("נא להזין מחיר קנייה", "מועדון צדק חברתי", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.RtlReading);                
+                TerminalMessageBox.ShowInfo("נא להזין מחיר קנייה");
             }
         }
 

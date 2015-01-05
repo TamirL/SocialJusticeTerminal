@@ -20,7 +20,7 @@ namespace SocialJusticeTerminal.ViewModels
         #endregion
 
 
-        public UseCouponViewModel(ITerminalDataProvider dataProvider, Guid customerId, Guid storeId, IEnumerable<CouponViewModel> couponsOfCustomer)
+        public UseCouponViewModel(ITerminalDataProvider dataProvider, Guid customerId, Guid storeId, IEnumerable<CustomerCouponViewModel> couponsOfCustomer)
         {
             CouponsOfCustomer = couponsOfCustomer;
             _dataProvider = dataProvider;
@@ -30,8 +30,8 @@ namespace SocialJusticeTerminal.ViewModels
 
         #region Properties
 
-        public IEnumerable<CouponViewModel> CouponsOfCustomer { get; set; }
-        public CouponViewModel SelectedCoupon { get; set; }
+        public IEnumerable<CustomerCouponViewModel> CouponsOfCustomer { get; set; }
+        public CustomerCouponViewModel SelectedCoupon { get; set; }
 
         #endregion
 
@@ -59,42 +59,33 @@ namespace SocialJusticeTerminal.ViewModels
 
         private void UseCoupon()
         {
+            const string caption = "בחירת קופון";
             if (SelectedCoupon == null)
             {
-                MessageBox.Show("אנא בחר קופון מהרשימה", "בחירת קופון", MessageBoxButton.OK, MessageBoxImage.Error,
-                    MessageBoxResult.OK, MessageBoxOptions.RtlReading);
+                TerminalMessageBox.ShowError("אנא בחר קופון מהרשימה", caption);
                 return;
             }
 
-            var selection = MessageBox.Show(
-                string.Format("האם אתה בטוח שברצונך לנצל את הקופון \"{0}\" במחיר {1} נקודות ?", SelectedCoupon.Description, SelectedCoupon.PointPrice), "בחירת קופון",
-                MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes, MessageBoxOptions.RtlReading);
-
-            if (selection == MessageBoxResult.No)
-            {
-                return;
-            }
+            var questionText = string.Format("האם אתה בטוח שברצונך לנצל את הקופון \"{0}\" במחיר {1} נקודות ?", SelectedCoupon.Description, SelectedCoupon.PointPrice);
+            if (!TerminalMessageBox.ShowQuestion(questionText, caption)) return;
 
             try
             {
                 _dataProvider.UseCoupon(SelectedCoupon);
-                MessageBox.Show(string.Format("הקופון \"{0}\" נוצל, אנא זכה את הלקוח במוצר המפורט בקופון", SelectedCoupon.Description), "מועדון צדק חברתי",
-                    MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.RtlReading);
-
+                var qouponTakenText = string.Format("הקופון \"{0}\" נוצל, אנא זכה את הלקוח במוצר המפורט בקופון", SelectedCoupon.Description);
+                TerminalMessageBox.ShowInfo(qouponTakenText);
+                OnWindowCloseRequested();
             }
             catch (Exception e)
             {
-                MessageBox.Show(
-                    "נכשל לשמור את פעולת הלקוח, אנא נסה שוב. במידה והפעולה לא מצליחה באופן עקבי נא לפנות ל\"מועדון צדק חברתי\"",
-                    "מועדון צדק חברתי", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK,
-                    MessageBoxOptions.RtlReading);
+                const string useCouponFailedText = "נכשל לשמור את פעולת הלקוח, אנא נסה שוב. במידה והפעולה לא מצליחה באופן עקבי נא לפנות ל\"מועדון צדק חברתי\"";
+                TerminalMessageBox.ShowError(useCouponFailedText);
                 _dataProvider.WriteToLog(e);
             }
-
-            OnWindowCloseRequested();
         }
 
-        #endregion
 
+
+        #endregion
     }
 }

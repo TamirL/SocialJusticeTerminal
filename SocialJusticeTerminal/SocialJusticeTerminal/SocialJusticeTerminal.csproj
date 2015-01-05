@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -58,14 +59,19 @@
     <Compile Include="Helpers\CommandBindingExtension.cs" />
     <Compile Include="Helpers\Navigator.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Helpers\TerminalMessageBox.cs" />
     <Compile Include="Logic\DummyTerminalDataProvider.cs" />
     <Compile Include="Logic\ITerminalDataProvider.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\BaseViewViewModel.cs" />
-    <Compile Include="ViewModels\CouponViewModel.cs" />
+    <Compile Include="ViewModels\UserCouponViewModel.cs" />
+    <Compile Include="ViewModels\EnterCustomerTZViewModel.cs" />
     <Compile Include="ViewModels\NewPurchaseViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\UseCouponViewModel.cs" />
+    <Compile Include="Views\EnterCustomerTzView.xaml.cs">
+      <DependentUpon>EnterCustomerTzView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NewPurchaseView.xaml.cs">
       <DependentUpon>NewPurchaseView.xaml</DependentUpon>
     </Compile>
@@ -77,6 +83,10 @@
       <DependentUpon>UseCouponView.xaml</DependentUpon>
     </Compile>
     <Page Include="Styles\Style.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EnterCustomerTzView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

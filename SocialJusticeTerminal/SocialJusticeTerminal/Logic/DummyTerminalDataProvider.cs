@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,12 +21,12 @@ namespace SocialJusticeTerminal.Logic
             
         }
 
-        public void UseCoupon(CouponViewModel coupon)
+        public void UseCoupon(CustomerCouponViewModel coupon)
         {
             File.AppendAllText(AppendWithDataPath("CouponsUsed.csv"), string.Format("{0},{1},{2},{3},{4}{5}", coupon.Id, coupon.CustomerId, coupon.StoreId, coupon.PointPrice, coupon.Description, Environment.NewLine));
         }
 
-        public IEnumerable<CouponViewModel> GetCouponsOfCustomer(Guid customerId, Guid storeId)
+        public IEnumerable<CustomerCouponViewModel> GetCouponsOfCustomer(Guid customerId, Guid storeId)
         {
             if (new Random().Next(1000) < 500)
             {
@@ -40,10 +42,27 @@ namespace SocialJusticeTerminal.Logic
             return lines.Select(line => FromLineToCoupon(line, customerId, storeId)).Take(new Random().Next(lines.Count()));
         }
 
-        private static CouponViewModel FromLineToCoupon(string line, Guid customerId, Guid storeId)
+        public Guid GetSelectedCustomer(string customerTz)
+        {
+            var filePath = AppendWithDataPath("Customers.csv");
+            var customers = from line in File.ReadAllLines(filePath)
+                let details = line.Split(',')
+                select new {Tz = details[0], Id = new Guid(details[1])};
+            var selected = customers.SingleOrDefault(x => x.Tz == customerTz);
+            if (selected != null)
+            {
+                return selected.Id;
+            }
+
+            File.AppendAllText(filePath, string.Format("{0}, {1}", customerTz, Guid.NewGuid()));
+
+            return Guid.Empty;
+        }
+
+        private static CustomerCouponViewModel FromLineToCoupon(string line, Guid customerId, Guid storeId)
         {
             var details = line.Split(',').SelectMany(x => x.Split('\t')).ToArray();
-            return new CouponViewModel()
+            return new CustomerCouponViewModel()
             {
                 Id = new Guid(details[0]),
                 CustomerId = customerId,
