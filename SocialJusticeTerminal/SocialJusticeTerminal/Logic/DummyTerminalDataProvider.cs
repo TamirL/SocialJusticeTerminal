@@ -11,7 +11,7 @@ namespace SocialJusticeTerminal.Logic
     {
         public void AddPurchase(Guid customerId, Guid storeId, float price)
         {
-            File.AppendAllText("D:\\Purchases.csv", string.Format("{0},{1},{2},{3}{4}", customerId, storeId, price, price/10, Environment.NewLine));
+            File.AppendAllText(AppendWithDataPath("Purchases.csv"), string.Format("{0},{1},{2},{3}{4}", customerId, storeId, price, price/10, Environment.NewLine));
         }
 
         public void WriteToLog(Exception exception)
@@ -21,12 +21,17 @@ namespace SocialJusticeTerminal.Logic
 
         public void UseCoupon(CouponViewModel coupon)
         {
-            File.AppendAllText("D:\\CouponsUsed.csv", string.Format("{0},{1},{2},{3},{4}{5}", coupon.Id, coupon.CustomerId, coupon.StoreId, coupon.PointPrice, coupon.Description, Environment.NewLine));
+            File.AppendAllText(AppendWithDataPath("CouponsUsed.csv"), string.Format("{0},{1},{2},{3},{4}{5}", coupon.Id, coupon.CustomerId, coupon.StoreId, coupon.PointPrice, coupon.Description, Environment.NewLine));
         }
 
         public IEnumerable<CouponViewModel> GetCouponsOfCustomer(Guid customerId, Guid storeId)
         {
-            string path = "D:\\Coupons.csv";
+            if (new Random().Next(1000) < 500)
+            {
+                return new List<CustomerCouponViewModel>();
+            }
+
+            string path = AppendWithDataPath("Coupons.csv");
             if (!File.Exists(path))
             {
                 File.Create(path).Close();
@@ -46,6 +51,11 @@ namespace SocialJusticeTerminal.Logic
                 PointPrice = int.Parse(details[3]),
                 Description = details[4]
             };
+        }
+
+        private string AppendWithDataPath(string fileName)
+        {
+            return Path.Combine(ConfigurationManager.AppSettings["DummyDataPath"], fileName);
         }
     }
 }
